@@ -1,0 +1,39 @@
+package migrations
+
+import (
+	"database/sql"
+	"fmt"
+
+	"github.com/pressly/goose/v3"
+)
+
+func init() {
+	goose.AddMigration(up{{ .FuncName }}, down{{ .FuncName }})
+}
+
+func up{{ .FuncName }}(tx *sql.Tx) error {
+	_, err := tx.Exec(`
+		CREATE TABLE {{ .TableName }} (
+			id SERIAL PRIMARY KEY,
+			name TEXT NOT NULL,
+			created_at TIMESTAMP NOT NULL,
+			updated_at TIMESTAMP NOT NULL
+		)
+	`)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("{{ .TableName }} table created")
+	return nil
+}
+
+func down{{ .FuncName }}(tx *sql.Tx) error {
+	_, err := tx.Exec(`DROP TABLE {{ .TableName }}`)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("{{ .TableName }} table dropped")
+	return nil
+}
