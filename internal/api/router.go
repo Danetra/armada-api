@@ -15,5 +15,5 @@ func StartServer(db *sql.DB, rmq *rabbitmq.RabbitMQ) {
 	r.GET("/vehicles/:vehicle_id/location", h.GetLatestLocation)
 	r.GET("/vehicles/:vehicle_id/history", h.GetLocationHistory)
 
-	r.Run(":8080")
+	r.Run("0.0.0.0:8080")
 }

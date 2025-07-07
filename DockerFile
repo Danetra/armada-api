@@ -11,7 +11,7 @@ RUN go mod download
 COPY . .
 
 # Build binary
-RUN go build -o armada-api ./cmd
+RUN go build -o armada-api index.go
 
 # Stage 2: Runtime
 FROM gcr.io/distroless/static-debian11

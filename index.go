@@ -3,6 +3,8 @@ package main
 import (
 	"armada-api/cmd/server"
 	"armada-api/databases"
+	"armada-api/internal/mqtt"
+	"armada-api/internal/rabbitmq"
 
 	_ "armada-api/databases/migrations"
 	"fmt"
@@ -22,6 +24,14 @@ func main() {
 			db := databases.InitDB()
 			defer db.Close()
 			databases.RunMigrations(db)
+
+		case "subscriber":
+			db := databases.InitDB()
+			defer db.Close()
+
+			rmq := rabbitmq.InitRabbitMQ()
+			defer rmq.Close()
+			mqtt.StartSubscriber(db, rmq)
 
 		case "migrate:rollback":
 			db := databases.InitDB()

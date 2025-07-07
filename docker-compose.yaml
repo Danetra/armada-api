@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - fleet-net
+      - armada-net
 
   rabbitmq:
     image: rabbitmq:3-management
@@ -23,7 +23,7 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
     networks:
-      - fleet-net
+      - armada-net
 
   mosquitto:
     image: eclipse-mosquitto:2
@@ -32,7 +32,7 @@ services:
       - "1883:1883"
       - "9001:9001"
     networks:
-      - fleet-net
+      - armada-net
 
   armada-api:
     build:
@@ -58,10 +58,10 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - fleet-net
+      - armada-net
 
 volumes:
   postgres-data:
 
 networks:
-  fleet-net:
+  armada-net:

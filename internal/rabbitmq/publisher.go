@@ -14,7 +14,7 @@ type RabbitMQ struct {
 }
 
 func InitRabbitMQ() *RabbitMQ {
-	conn, err := amqp.Dial("amqp://guest:guest@rabbitmq:5672/")
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
 	if err != nil {
 		log.Fatal("Failed to connect to RabbitMQ:", err)
 	}
@@ -25,7 +25,7 @@ func InitRabbitMQ() *RabbitMQ {
 	}
 
 	err = ch.ExchangeDeclare(
-		"fleet.events",
+		"armada.events",
 		"fanout",       
 		true,           
 		false,          
@@ -60,7 +60,7 @@ func PublishGeofenceEvent(rmq *RabbitMQ, loc model.LocationPayload) {
 
 	// Publish message ke exchange
 	err = rmq.Ch.Publish(
-		"fleet.events", // exchange
+		"armada.events", // exchange
 		"",             // routing key (kosong kalau pakai fanout)
 		false,          // mandatory
 		false,          // immediate

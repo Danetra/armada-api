@@ -25,7 +25,7 @@ func StartGeofenceWorker(rmq *RabbitMQ) {
 	err = rmq.Ch.QueueBind(
 		q.Name,         // queue name
 		"",             // routing key (kosong untuk fanout)
-		"fleet.events", // exchange
+		"armada.events", // exchange
 		false,
 		nil,
 	)
