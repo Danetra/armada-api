@@ -1,6 +1,7 @@
 package databases
 
 import (
+	"armada-api/internal/model"
 	"bytes"
 	"database/sql"
 	"fmt"
@@ -19,7 +20,6 @@ import (
 var DB *sql.DB
 
 func InitDB() *sql.DB {
-	// Load environment
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Fatalf("Error loading .env file")
@@ -122,4 +122,12 @@ func getTableName(name string) string {
 		}
 	}
 	return name
+}
+
+func InsertLocation(db *sql.DB, loc model.LocationPayload) {
+	query := `INSERT INTO vehicle_locations (vehicle_id, latitude, longitude, timestamp) VALUES ($1, $2, $3, $4)`
+	_, err := db.Exec(query, loc.VehicleID, loc.Latitude, loc.Longitude, loc.Timestamp)
+	if err != nil {
+		fmt.Println("DB insert error:", err)
+	}
 }
